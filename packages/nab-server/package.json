@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@chaingun/sea-client": "^0.19.2",
-    "@chaingun/socketcluster-worker": "^0.19.2",
+    "@chaingun/socketcluster-worker": "^0.19.3",
     "@notabug/nab-wire-validation": "^0.77.0",
     "@notabug/peer": "^0.77.0",
     "compression": "^1.7.4",

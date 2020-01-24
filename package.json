@@ -1,7 +1,9 @@
 {
   "scripts": {
-    "buildall": "lerna run build --since",
-    "server": "lerna run run:sockets --stream"
+    "buildall": "lerna run build",
+    "buildchanges": "lerna run build --since",
+    "server": "lerna run run:sockets --stream",
+    "setup": "yarn && yarn buildall && yarn server"
   },
   "private": true,
   "workspaces": [
