@@ -1,0 +1,336 @@
+#header {
+  /*background-color: #BCF1AA;*/
+}
+#header-img.default-header,
+.thumbnail.nsfw,
+.thumbnail.self {
+  background-image: url(/media/img/notabug-logo.png);
+}
+body > .content .link .rank,
+.rank-spacer {
+  width: 3.3ex;
+}
+body > .content .link .midcol,
+.midcol-spacer {
+  width: 6ex;
+}
+body > .content .chat-listing .link .rank,
+.rank-spacer {
+  width: auto;
+}
+body > .content .chat-listing .link .midcol,
+.midcol-spacer {
+  width: auto;
+}
+
+.identicon svg {
+  background-color: white;
+  vertical-align: middle;
+}
+
+.user-hover-info .identicon {
+  margin-right: 1em;
+}
+
+.dropdown {
+  cursor: pointer;
+}
+
+.chat-modal {
+  position: fixed;
+  background-color: #eff7ff;
+  border: 1px solid #5f99cf;
+  right: 0px;
+  bottom: 0px;
+  width: 560px;
+  height: 380px;
+  z-index: 100;
+}
+
+.chat-message-display {
+  -webkit-overflow-scrolling: touch;
+}
+
+.chat-modal .chat-message-display {
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding-top: 0.5em;
+}
+
+.chat-modal {
+  bottom: 10px;
+  right: 10px;
+}
+
+.chat-modal .chat-message-display {
+  bottom: 50px;
+}
+
+.chat-modal .chat-message-display .midcol {
+  float: none;
+}
+
+.content .chat-input {
+  background-color: white;
+  position: fixed;
+  left: 0;
+  right: 310px;
+  bottom: 0;
+  margin: 10px;
+  z-index: 10000;
+}
+
+.chat-modal .chat-modal-controls {
+  z-index: 10000;
+}
+
+.sidebar-chat .content {
+  position: relative;
+  padding-bottom: 1em;
+}
+
+.sidebar-chat .chat-input,
+.chat-modal .chat-input {
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin: 10px;
+}
+
+.chat-input textarea {
+  width: 85%;
+  box-sizing: border-box;
+  min-height: 2.4em;
+  height: 2.4em;
+  padding: 0.5em 0.5em;
+  margin: 0 0 0 -1px;
+  border: 1px solid gray;
+  overflow-y: hidden;
+  resize: none;
+}
+
+.sidebar-chat .chat-input textarea,
+.chat-modal .chat-input textarea {
+  border-bottom: hidden;
+}
+
+.chat-input .send-btn {
+  position: absolute;
+  bottom: 0;
+  /*top: 0;*/
+  right: 0;
+  width: 13%;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border: 1px solid #5f99cf;
+}
+
+.sidebar-chat .chat-input .send-btn {
+  display: none;
+}
+
+.sidebar-chat .chat-input textarea {
+  width: calc(100% + 2px);
+}
+
+.chat-modal .chat-modal-controls {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.chat-modal .chat-modal-controls button {
+  background-color: #5f99cf;
+  color: white;
+}
+
+.chat-modal .comment {
+  margin: 4px 10px;
+}
+
+.infinite-listing {
+  background-color: white;
+  position: fixed;
+  top: 63px;
+  padding-top: 7px;
+  padding-left: 5px;
+  right: 310px;
+  left: 0px;
+  bottom: 0px;
+  overflow-y: scroll !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chat-modal .infinite-listing,
+.chat-modal .content {
+  background-color: transparent;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+
+.sidebar-chat .content {
+  padding: 0 0 0 0;
+}
+
+.chat-listing {
+  bottom: 46px;
+}
+
+.chat-listing .thing .usertext-body * {
+  font-size: 1em !important;
+  line-height: 1.2em !important;
+  margin-top: .2em !important;
+}
+
+.chat-listing .thing .usertext-body sup {
+  font-size: .86em !important;
+}
+
+.things-container {
+  position: relative;
+}
+
+.chat-scrollbtn {
+  z-index: 1000;
+  border: none;
+  border-top: solid 1px lightgray;
+  font-size: 1.5em;
+  font-weight: bold;
+  letter-spacing: .5em;
+  background-color: rgba(240, 240, 240, .85);
+  color: gray;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  display: none;
+}
+
+.sidebar-chat .chat-scrollbtn {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+body > .content .chat-scrollbtn {
+  position: fixed;
+  border: solid 1px lightgray;
+  bottom: 46px;
+  left: 10px;
+  right: 325px;
+}
+
+.side .infinite-listing {
+  top: 0;
+  bottom: 0;
+  padding: 0 0 0 0;
+  position: relative;
+  height: 220px;
+}
+
+.side .chat-listing {
+}
+
+.sidebar-chat .thing .md p {
+  margin-top: 0;
+}
+
+.sidebar-chat .thing .chat-topic-name,
+.sidebar-chat .thing .child,
+.sidebar-chat .arrow,
+.chat-modal .arrow {
+  display: none;
+}
+
+.sidebar-chat .comment {
+  margin-left: 0;
+}
+
+.side .chat-input {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  background-color: white;
+}
+
+.score.likes {
+  color: #ff8b60;
+}
+.score.dislikes {
+  color: #9494ff;
+}
+
+.individual-vote-counts .score {
+  display: inline-block;
+}
+
+.expando img {
+  max-width: 100%;
+  max-height: 720px;
+}
+
+.vote-status-fixed {
+  box-shadow: 0px 0px 3px 5px #FF8B60;
+  background-color: white;
+  z-index: 1000;
+  width: 300px;
+  position: fixed;
+  top: 5px;
+  right: 5px;
+}
+
+.side .new-wikipage-banner,
+.side h1.wikititle,
+.side .wikiaction-current {
+  display: none;
+}
+
+.vote-cores-slidertrack {
+  height: .5em;
+  background-color: #ccc;
+  border: solid 1px #aaa;
+  border-radius: .25em;
+  margin: 2em 1em;
+}
+
+.vote-cores-sliderthumb {
+  height: 2em;
+  width: 2em;
+  background-color: #fa8;
+  border: solid 1px #d86;
+  border-radius: 1em;
+}
+
+.vote-cores-slider {
+  font-size: small;
+  text-align: left;
+}
+
+.tagline-action {
+  padding-left: .25em;
+  border-left: solid 1px #888;
+  cursor: pointer;
+}
+
+#darkmode-switch {
+  color: #ddd;
+  background-color: #666;
+  font-size: 8px;
+  margin-left: 2px;
+  padding: 2px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#darkmode-switch:after {
+  content: "█";
+  padding-left: 1em;
+}

@@ -1,0 +1,128 @@
+.darkmode html {
+  background-color: #182028;
+  color: #ccd;
+}
+
+.darkmode #header {
+  background-color: #283038 !important;
+}
+
+.darkmode a {
+  background-color: transparent !important;
+  color: #8be !important;
+}
+
+.darkmode body,
+.darkmode .side,
+.darkmode .bottommenu,
+.darkmode .content,
+.darkmode .footer-parent,
+.darkmode #header-bottom-right,
+.darkmode .sitetable,
+.darkmode .md,
+.darkmode #sr-header-area,
+.darkmode #sr-header-area a {
+  background-color: #182028 !important;
+  color: #dde !important;
+}
+
+.darkmode .submit .morelink {
+  border: #678 solid 1px !important;
+}
+
+.darkmode .submit .morelink a {
+  background-color: #182028 !important;
+}
+
+.darkmode .content .chat-input {
+  background-color: transparent !important;
+}
+
+.darkmode .chat-scrollbtn {
+  background-color: rgba(24, 32, 40, .85) !important;
+  border-color: gray !important;
+  color: gray !important;
+}
+
+.darkmode blockquote {
+  color: #aaa !important;
+}
+
+.darkmode input,
+.darkmode textarea,
+.darkmode pre,
+.darkmode .roundfield,
+.darkmode .infobar,
+.darkmode .nextprev a {
+  background-color: #283038 !important;
+  color: #dde !important;
+  border: #678 solid 1px !important;
+}
+
+.darkmode code {
+  background-color: #283038 !important;
+  color: #aaa !important;
+  border: none !important;
+}
+
+.darkmode button {
+  background-color: #182028 !important;
+  color: #8be !important;
+  border: solid 1px #678;
+  padding: .5em 1em;
+}
+
+.darkmode button:disabled {
+  background-color: #283038 !important;
+  color: #69c !important;
+}
+
+.darkmode .tabmenu li:not(.selected) a {
+  background-color: #485058 !important;
+  border: none !important;
+}
+
+.darkmode .selected a {
+  color: #f86 !important;
+  border: 1px solid #9ab !important;
+  border-bottom: 1px solid #182028 !important;
+}
+
+.darkmode a:visited.title {
+  color: #678 !important;
+}
+
+.darkmode .thing.stickied .title > a {
+  color: #eef !important;
+}
+
+.darkmode #header-img {
+  background-color: transparent !important;
+  filter: invert(.8);
+}
+
+.darkmode .drop-choices {
+  background-color: #283038 !important;
+}
+
+.darkmode .nub {
+  display: none;
+}
+
+.darkmode .identicon {
+  filter: invert(1) hue-rotate(180deg) brightness(1.5);
+}
+
+.darkmode .expando-button {
+  filter: invert(1) hue-rotate(180deg) brightness(.75);
+}
+
+.darkmode #sr-header-area #darkmode-switch {
+  color: #bbb !important;
+  background-color: #444 !important;
+}
+
+.darkmode #darkmode-switch:after {
+  padding-left: 0;
+  padding-right: 1em;
+}

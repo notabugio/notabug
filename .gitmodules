@@ -1,0 +1,3 @@
+[submodule "chaingun"]
+	path = chaingun
+	url = git+ssh://git@github.com/chain-gun/chaingun.git

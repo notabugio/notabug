@@ -1,0 +1,82 @@
+{
+  "name": "notabug",
+  "version": "0.73.3",
+  "description": "Classic Open-Source Reddit UI for notabug",
+  "main": "index.js",
+  "keywords": [],
+  "author": "go1dfish",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/notabugio/notabug.git"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "start": "GUN_SC_HOSTNAME=notabug.io GUN_SC_PORT=443 parcel --host 0.0.0.0 --port 4444 src/index.html",
+    "build": "cross-env-shell BABEL_ENV=client \"rimraf build && parcel build -d build src/index.html\" && yarn tohtdocs",
+    "clean": "rimraf build && rimraf server-build",
+    "tohtdocs": "copyfiles --up 1 build/* build/**/* htdocs"
+  },
+  "alias": {
+    "argon2": "./src/vendor/argon2.stub.js"
+  },
+  "dependencies": {
+    "@babel/runtime-corejs2": "^7.6.3",
+    "@chaingun/sea-client": "^0.0.29",
+    "@chaingun/socketcluster-connector": "^0.0.5",
+    "@notabug/peer": "^0.41.3",
+    "@tippy.js/react": "^2.2.0",
+    "argon2-browser": "1.5.3",
+    "core-js": "^3.3.6",
+    "detect-node": "^2.0.4",
+    "jdenticon": "^2.1.1",
+    "js-yaml": "^3.13.1",
+    "localforage": "^1.7.3",
+    "lodash.debounce": "^4.0.8",
+    "parcel-plugin-static-files-copy": "^2.1.2",
+    "query-string": "^6.7.0",
+    "ramda": "^0.26.1",
+    "react": "^16.12.0",
+    "react-chatview": "^0.2.5",
+    "react-click-outside": "^3.0.1",
+    "react-dom": "^16.12.0",
+    "react-helmet": "^5.2.1",
+    "react-instagram-embed": "^1.5.0",
+    "react-player": "^1.11.0",
+    "react-popper": "^1.3.3",
+    "react-range": "^1.4.0",
+    "react-router": "^5.0.1",
+    "react-router-dom": "^5.0.1",
+    "react-spinkit": "^3.0.0",
+    "react-timeago": "^4.4.0",
+    "react-visibility-sensor": "^5.0.2",
+    "serialize-javascript": "2.1.1",
+    "snudown-js": "^3.1.5",
+    "uri-js": "^4.2.2"
+  },
+  "devDependencies": {
+    "@babel/core": "7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-function-bind": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "concurrently": "^4.1.0",
+    "copyfiles": "^2.1.0",
+    "cross-env": "^5.2.0",
+    "less": "^3.9.0",
+    "parcel-bundler": "^1.12.3",
+    "rimraf": "3.0.0"
+  },
+  "prettier": {
+    "semi": false
+  },
+  "browserslist": [
+    ">0.05%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
