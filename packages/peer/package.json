@@ -1,6 +1,6 @@
 {
   "name": "@notabug/peer",
-  "version": "0.41.3",
+  "version": "0.74.1",
   "description": "",
   "keywords": [],
   "main": "dist/@notabug/peer.umd.js",
