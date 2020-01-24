@@ -12,6 +12,8 @@
   ],
   "name": "notabug-workspace",
   "devDependencies": {
+    "@types/socketcluster": "^14.0.2",
+    "@types/socketcluster-server": "^14.2.4",
     "lerna": "^3.20.2"
   }
 }
