@@ -126,5 +126,6 @@
     "route-parser": "0.0.5",
     "uri-js": "^4.2.2",
     "zalgo-promise": "1.0.28"
-  }
+  },
+  "gitHead": "cd669f418bbb85bb7180cc4cc9887211eb1945be"
 }
