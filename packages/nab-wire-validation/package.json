@@ -52,12 +52,10 @@
     "node": ">=8.9"
   },
   "dependencies": {
-    "@notabug/chaingun": "^0.0.18",
     "@notabug/gun-sear": "^0.0.22",
     "@notabug/gun-suppressor-sear": "^0.3.1",
     "@notabug/peer": "^0.41.3",
     "dotenv": "^8.1.0",
-    "gun": "^0.2019.915",
     "object-hash": "^1.3.1",
     "ramda": "^0.26.1",
     "route-parser": "^0.0.5",

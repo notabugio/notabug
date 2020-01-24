@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "lerna run build --since",
+    "buildall": "lerna run build --since",
     "server": "lerna run run:sockets --stream"
   },
   "private": true,

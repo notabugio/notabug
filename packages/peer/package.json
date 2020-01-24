@@ -41,11 +41,6 @@
       "git add"
     ]
   },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-conventional-changelog"
-    }
-  },
   "jest": {
     "transform": {
       ".(ts|tsx)": "ts-jest"
