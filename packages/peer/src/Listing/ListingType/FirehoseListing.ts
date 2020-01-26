@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { query } from '@notabug/gun-scope';
+import { query } from '@chaingun/scope';
 import { Config } from '../../Config';
 import { Path } from '../Path';
 import { ListingSpec } from '../ListingSpec';

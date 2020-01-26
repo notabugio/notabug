@@ -1,6 +1,6 @@
 import * as R from 'ramda';
 import memoize from 'fast-memoize';
-import { resolve, all } from '@notabug/gun-scope';
+import { resolve, all } from '@chaingun/scope';
 import { Query } from '../Query';
 import { ListingSpecType, ListingNodeRow, GunScope, ListingNodeType } from '../types';
 import { ListingNode } from './ListingNode';

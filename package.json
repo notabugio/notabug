@@ -1,19 +1,47 @@
 {
+  "name": "notabug-workspace",
+  "description": "Federated fork of classic reddit UI based on gunDB",
+  "repository": "https://github.com/notabugio/notabug",
+  "author": "go1dfish",
+  "license": "MIT",
+  "keywords": [
+    "forum",
+    "federated",
+    "chat",
+    "reddit",
+    "social"
+  ],
   "scripts": {
+    "postinstall": "node postinstall.js",
+    "setup": "yarn && yarn buildall",
     "buildall": "lerna run build",
     "buildchanges": "lerna run build --since",
-    "server": "lerna run run:sockets --stream",
-    "setup": "yarn && yarn buildall && yarn server"
+    "server": "yarn workspace @notabug/nab-server start",
+    "start": "yarn workspace @notabug/nab-server pm2:start",
+    "stop": "yarn workspace @notabug/nab-server pm2:stop",
+    "logs": "yarn workspace @notabug/nab-server pm2:logs",
+    "status": "yarn workspace @notabug/nab-server pm2:ls",
+    "reload": "yarn workspace @notabug/nab-server pm2:reload",
+    "pm2:update": "yarn workspace @notabug/nab-server pm2:update",
+    "gitupgrade": "git stash && git pull origin master && git stash pop && yarn hotrebuild",
+    "monit": "yarn workspace @notabug/nab-server pm2:monit",
+    "hotrebuild": "yarn setup && yarn reload",
+    "devrebuild": "yarn buildchanges && yarn reload",
+    "uidev": "yarn workspace notabug start",
+    "lernapublish": "lerna publish"
   },
   "private": true,
   "workspaces": [
     "packages/*",
     "chaingun/packages/*"
   ],
-  "name": "notabug-workspace",
   "devDependencies": {
     "@types/socketcluster": "^14.0.2",
     "@types/socketcluster-server": "^14.2.4",
     "lerna": "^3.20.2"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
   }
 }

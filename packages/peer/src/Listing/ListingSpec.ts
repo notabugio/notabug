@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { query } from '@notabug/gun-scope';
+import { query } from '@chaingun/scope';
 import { Query } from '../Query';
 import { ThingDataNode } from '../Thing';
 import { ListingDefinition } from './ListingDefinition';

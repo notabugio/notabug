@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { query, resolve } from '@notabug/gun-scope';
+import { query, resolve } from '@chaingun/scope';
 import { Schema } from '../Schema';
 import { Query } from '../Query';
 import { SortDataRow, CombinedThingType } from '../types';

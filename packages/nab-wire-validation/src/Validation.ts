@@ -1,8 +1,9 @@
-import * as R from 'ramda'
-import objHash from 'object-hash'
-import { createSuppressor } from '@notabug/gun-suppressor'
-import * as sea from '@notabug/gun-suppressor-sear'
+// tslint:disable-next-line: no-implicit-dependencies
+import { createSuppressor } from '@chaingun/suppressor'
+import * as sea from '@chaingun/suppressor-sear'
 import { Schema } from '@notabug/peer'
+import objHash from 'object-hash'
+import * as R from 'ramda'
 
 import { GunNodeType, SchemaNodeType, ThingDataNodeType } from './types'
 

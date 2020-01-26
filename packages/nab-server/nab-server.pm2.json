@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "nab-server",
+      "instances": 1,
+      "script": "./build/main/server.js"
+    }
+  ]
+}

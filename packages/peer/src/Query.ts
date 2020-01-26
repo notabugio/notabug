@@ -1,5 +1,5 @@
 import * as R from 'ramda';
-import { scope as makeScope, query, all, resolve } from '@notabug/gun-scope';
+import { scope as makeScope, query, all, resolve } from '@chaingun/scope';
 import { Config } from './Config';
 import { Schema } from './Schema';
 import { ListingNode } from './Listing/ListingNode';
