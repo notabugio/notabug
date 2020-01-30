@@ -34,7 +34,10 @@ export class NabIndexer extends NotabugClient {
   }
 
   public start(): Promise<void> {
-    return this.authenticate()
+    return this.authenticate(
+      process.env.NAB_INDEXER_ALIAS,
+      process.env.NAB_INDEXER_PASSWORD
+    )
       .then(async ({ pub }) => {
         Config.update({
           indexer: pub,

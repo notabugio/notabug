@@ -40,7 +40,10 @@ export class NabTabulator extends NotabugClient {
   }
 
   public start(): Promise<void> {
-    return this.authenticate()
+    return this.authenticate(
+      process.env.NAB_TABULATOR_ALIAS,
+      process.env.NAB_TABULATOR_PASSWORD
+    )
       .then(async ({ pub }) => {
         Config.update({
           indexer: process.env.NAB_INDEXER || pub,

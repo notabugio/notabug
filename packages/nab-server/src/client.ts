@@ -26,15 +26,18 @@ export class NotabugClient extends ChainGunSeaClient {
     this.readNode = this.readNode.bind(this)
   }
 
-  public authenticate(): Promise<{
+  public authenticate(
+    alias = process.env.GUN_ALIAS || '',
+    password = process.env.GUN_PASSWORD || ''
+  ): Promise<{
     readonly alias: string
     readonly pub: string
   }> {
-    if (process.env.GUN_ALIAS && process.env.GUN_PASSWORD && !this.user().is) {
-      return this.user().auth(process.env.GUN_ALIAS, process.env.GUN_PASSWORD)
+    if (alias && password && !this.user().is) {
+      return this.user().auth(alias, password)
     }
 
-    return Promise.reject(new Error('Missing GUN_ALIAS or GUN_PASSWORD'))
+    return Promise.reject(new Error('Missing alias or password'))
   }
 
   public readNode(

@@ -66,6 +66,7 @@
     "compression": "^1.7.4",
     "dotenv": "^8.1.0",
     "express-history-api-fallback": "^2.2.1",
+    "fast-ipc": "^1.0.9",
     "gun": "^0.2019.930",
     "minimist": "^1.2.0",
     "pm2": "^3.5.2",

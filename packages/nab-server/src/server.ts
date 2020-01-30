@@ -16,6 +16,13 @@ import SocketCluster from 'socketcluster'
 // tslint:disable-next-line: no-submodule-imports
 import fsUtil from 'socketcluster/fsutil'
 
+import { RateLimiterIPCMaster } from './rate-limiter-ipc'
+
+// console.log('isMaster', require('cluster').isMaster)
+
+// tslint:disable-next-line: no-unused-expression
+new RateLimiterIPCMaster()
+
 const waitForFile = fsUtil.waitForFile
 const argv = minimist(process.argv.slice(2))
 

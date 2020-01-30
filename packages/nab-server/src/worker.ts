@@ -9,19 +9,29 @@ import express from 'express'
 import fallback from 'express-history-api-fallback'
 import Gun from 'gun'
 import path from 'path'
-import { RateLimiterMemory } from 'rate-limiter-flexible'
 import { NabIndexer } from './indexer'
+import { RateLimiterIPCWorker } from './rate-limiter-ipc'
 import { NabTabulator } from './tabulator'
 
 const DISABLE_VALIDATION = false
 
 const suppressor = Validation.createSuppressor(Gun)
 
-const PERIOD = 60 * 30 // 30m
+const RATE_LIMITER_PERIOD =
+  parseInt(process.env.NAB_RATE_LIMITER_PERIOD, 10) || 60 * 30
+const RATE_LIMITER_BYTES_PER_SECOND =
+  parseInt(process.env.NAB_RATE_LIMITER_BYTES_PER_SECOND, 10) || 40
+const RATE_LIMITER_SUBMISSION_MULTIPLIER =
+  parseInt(process.env.NAB_RATE_LIMITER_SUBMISSION_MULTIPLIER, 10) || 5
+const RATE_LIMITER_COMMENT_MULTIPLIER =
+  parseInt(process.env.NAB_RATE_LIMITER_COMMENT_MULTIPLIER, 10) || 3
+const RATE_LIMITER_CHAT_MULTIPLIER =
+  parseInt(process.env.NAB_RATE_LIMITER_CHAT_MULTIPLIER, 10) || 1
 
-const rateLimiter = new RateLimiterMemory({
-  duration: 1 * PERIOD,
-  points: 20 * PERIOD
+const rateLimiter = new RateLimiterIPCWorker({
+  duration: 1 * RATE_LIMITER_PERIOD,
+  keyPrefix: 'nab-rate-limiter',
+  points: RATE_LIMITER_BYTES_PER_SECOND * RATE_LIMITER_PERIOD
 })
 
 const staticMedia = express.Router()
@@ -105,14 +115,14 @@ export class NotabugWorker extends GunSocketClusterWorker {
         }
 
         // tslint:disable-next-line: no-let
-        let multiplier = 1
+        let multiplier = RATE_LIMITER_CHAT_MULTIPLIER
 
         if (data.kind === 'submission' || data.kind === 'wikipage') {
-          multiplier = 5
+          multiplier = RATE_LIMITER_SUBMISSION_MULTIPLIER
         }
 
         if (data.kind === 'comment') {
-          multiplier = 3
+          multiplier = RATE_LIMITER_COMMENT_MULTIPLIER
         }
 
         // tslint:disable-next-line: no-let
