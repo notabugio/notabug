@@ -132,9 +132,6 @@ export class NotabugWorker extends GunSocketClusterWorker {
 
     for (const soul in graphData) {
       if (dataRe.test(soul)) {
-        // tslint:disable-next-line: no-console
-        console.log('data soul', soul)
-
         const { authorId = '' } = Schema.ThingDataSigned.route.match(soul) || {}
 
         const data = graphData[soul]
