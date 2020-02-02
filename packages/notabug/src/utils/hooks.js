@@ -1,8 +1,8 @@
-import { useState, useCallback, useMemo, useEffect } from 'react'
-import * as R from 'ramda'
-import { useNotabug } from '/NabContext'
-import isNode from 'detect-node'
-import debounce from 'lodash.debounce'
+import { useState, useCallback, useMemo, useEffect } from "react"
+import * as R from "ramda"
+import { useNotabug } from "/NabContext"
+import isNode from "detect-node"
+import debounce from "lodash.debounce"
 
 export const useMemoizedObject = obj => useMemo(() => obj, R.values(obj))
 
@@ -23,7 +23,7 @@ export const useScope = (deps = [], opts = {}) => {
 
     return api.newScope({
       ...opts,
-      unsub: false,
+      unsub: true,
       gun: api.gun.chaingun,
       graph: api.scope.getGraph()
     })
@@ -34,7 +34,7 @@ export const useScope = (deps = [], opts = {}) => {
   return scope
 }
 
-export const useQuery = (query, args = [], name = 'unknown') => {
+export const useQuery = (query, args = [], name = "unknown") => {
   const scope = useScope([query, ...args], { timeout: 90000 })
   const [hasResponseState, setHasResponse] = useState(false)
   const [{ result }, setResult] = useState(
@@ -43,7 +43,7 @@ export const useQuery = (query, args = [], name = 'unknown') => {
       []
     )
   )
-  const hasResponse = typeof result !== 'undefined' || hasResponseState
+  const hasResponse = typeof result !== "undefined" || hasResponseState
 
   const doUpdate = useCallback(
     (soul, node) => {
@@ -57,23 +57,20 @@ export const useQuery = (query, args = [], name = 'unknown') => {
     [scope, query, ...args]
   )
 
-  useEffect(
-    () => {
-      const debounced = debounce(doUpdate, 300, {
-        trailing: true,
-        maxWait: 500
-      })
-      const update = (...args) => debounced()
+  useEffect(() => {
+    const debounced = debounce(doUpdate, 300, {
+      trailing: true,
+      maxWait: 500
+    })
+    const update = (...args) => debounced()
 
-      update()
-      scope.on(update)
+    update()
+    scope.on(update)
 
-      return () => {
-        scope.off(update)
-      }
-    },
-    [doUpdate]
-  )
+    return () => {
+      scope.off(update)
+    }
+  }, [doUpdate])
 
   return [result, hasResponse]
 }

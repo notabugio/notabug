@@ -45,7 +45,7 @@ const options: any = {
   brokerController: brokerControllerPath || path.join(__dirname, 'broker.js'),
   workerClusterController: workerClusterControllerPath || null,
   socketChannelLimit:
-    Number(process.env.SOCKETCLUSTER_SOCKET_CHANNEL_LIMIT) || 5000,
+    Number(process.env.SOCKETCLUSTER_SOCKET_CHANNEL_LIMIT) || 1000,
   clusterStateServerHost:
     argv.cssh || process.env.SCC_STATE_SERVER_HOST || null,
   clusterStateServerPort: process.env.SCC_STATE_SERVER_PORT || null,
