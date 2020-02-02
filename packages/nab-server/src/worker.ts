@@ -32,8 +32,6 @@ const RATE_LIMITER_SKIP = (process.env.NAB_RATE_LIMITER_SKIP || '')
   .split(',')
   .map(s => s.trim())
 
-console.log('rate limiter', process.env.NAB_SKIP_RATE_LIMITER)
-
 const rateLimiter = new RateLimiterIPCWorker({
   duration: 1 * RATE_LIMITER_PERIOD,
   keyPrefix: 'nab-rate-limiter',
