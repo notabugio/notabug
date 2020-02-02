@@ -3,9 +3,10 @@ require('dotenv').config()
 import { GunGraphData } from '@chaingun/sea-client'
 import GunSocketClusterWorker from '@chaingun/socketcluster-worker'
 import { Validation } from '@notabug/nab-wire-validation'
+import { Schema } from '@notabug/peer'
 import compression from 'compression'
 // tslint:disable-next-line: no-implicit-dependencies
-import express from 'express'
+import express, { Request } from 'express'
 import fallback from 'express-history-api-fallback'
 import Gun from 'gun'
 import path from 'path'
@@ -27,6 +28,11 @@ const RATE_LIMITER_COMMENT_MULTIPLIER =
   parseInt(process.env.NAB_RATE_LIMITER_COMMENT_MULTIPLIER, 10) || 3
 const RATE_LIMITER_CHAT_MULTIPLIER =
   parseInt(process.env.NAB_RATE_LIMITER_CHAT_MULTIPLIER, 10) || 1
+const RATE_LIMITER_SKIP = (process.env.NAB_RATE_LIMITER_SKIP || '')
+  .split(',')
+  .map(s => s.trim())
+
+console.log('rate limiter', process.env.NAB_SKIP_RATE_LIMITER)
 
 const rateLimiter = new RateLimiterIPCWorker({
   duration: 1 * RATE_LIMITER_PERIOD,
@@ -60,6 +66,17 @@ export class NotabugWorker extends GunSocketClusterWorker {
     staticMedia.use(express.static(root, { index: false }))
     app.use(fallback('index.html', { root }))
     return app
+  }
+
+  protected async preprocessHttpPut(req: Request): Promise<void | boolean> {
+    const graphData = req.body
+    const address =
+      (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress
+    const allowed = await this.throttlePuts(graphData, address)
+    if (!allowed) {
+      return false
+    }
+    return true
   }
 
   protected async validatePut(graph: GunGraphData): Promise<boolean> {
@@ -101,6 +118,17 @@ export class NotabugWorker extends GunSocketClusterWorker {
 
     const graphData = req.data.put
 
+    this.throttlePuts(graphData, req.socket.forwardedForAddress)
+      .then(allowed =>
+        allowed ? next() : next(new Error('Rate Limit Exceeded'))
+      )
+      .catch(err => next(err))
+  }
+
+  protected async throttlePuts(
+    graphData: GunGraphData,
+    address: string
+  ): Promise<boolean> {
     // tslint:disable-next-line: no-let
     let contentLength = 0
 
@@ -109,8 +137,10 @@ export class NotabugWorker extends GunSocketClusterWorker {
         // tslint:disable-next-line: no-console
         console.log('data soul', soul)
 
+        const { authorId = '' } = Schema.ThingDataSigned.route.match(soul) || {}
+
         const data = graphData[soul]
-        if (!data) {
+        if (!data || (authorId && RATE_LIMITER_SKIP.includes(authorId))) {
           continue
         }
 
@@ -135,20 +165,17 @@ export class NotabugWorker extends GunSocketClusterWorker {
       }
     }
 
-    if (!contentLength || !req.socket.forwardedForAddress) {
-      next()
-      return
+    if (!contentLength || !address) {
+      return true
     }
 
-    rateLimiter
-      .consume(req.socket.forwardedForAddress, contentLength)
-      .then(() => {
-        next()
-      })
+    return rateLimiter
+      .consume(address, contentLength)
+      .then(() => true)
       .catch(res => {
         // tslint:disable-next-line: no-console
         console.error('rate limit exceeded', res, graphData)
-        next(new Error('Rate Limit Exceeded'))
+        return false
       })
   }
 }

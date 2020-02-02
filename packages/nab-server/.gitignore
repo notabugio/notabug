@@ -8,6 +8,7 @@ htdocs
 coverage
 .nyc_output
 *.log
+core
 .env
 data
 peers.yaml
