@@ -1,6 +1,6 @@
 {
   "name": "@notabug/nab-server",
-  "version": "0.79.0",
+  "version": "0.79.1",
   "description": "notabug.io SocketCluster server",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -61,8 +61,8 @@
   "dependencies": {
     "@chaingun/sea-client": "^0.21.1",
     "@chaingun/socketcluster-worker": "^0.21.1",
-    "@notabug/nab-wire-validation": "^0.79.0",
-    "@notabug/peer": "^0.79.0",
+    "@notabug/nab-wire-validation": "^0.79.1",
+    "@notabug/peer": "^0.79.1",
     "compression": "^1.7.4",
     "dotenv": "^8.1.0",
     "express-history-api-fallback": "^2.2.1",
