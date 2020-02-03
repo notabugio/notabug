@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.6.3",
-    "@chaingun/sea-client": "^0.21.1",
-    "@chaingun/socketcluster-connector": "^0.21.1",
+    "@chaingun/sea-client": "^0.22.0",
+    "@chaingun/socketcluster-connector": "^0.22.0",
     "@notabug/peer": "^0.79.1",
     "@tippy.js/react": "^2.2.0",
     "argon2-browser": "1.5.3",
