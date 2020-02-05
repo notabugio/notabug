@@ -83,6 +83,7 @@ export class NabIndexer extends NotabugClient {
 
     this.memory = createMemoryAdapter({
       diffFn: diffGunCRDT,
+      direct: true,
       mergeFn: (existing: GunGraphData, diff: GunGraphData) => {
         const unpacked = unpackGraph(diff)
         // tslint:disable-next-line: no-delete
@@ -333,7 +334,7 @@ export async function indexThing(
 
     await Promise.all(
       souls.map(soul =>
-        scope.get(soul).then(node => {
+        peer.readNode(soul).then(node => {
           nodes[soul] = node
         })
       )
