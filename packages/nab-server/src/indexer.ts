@@ -106,7 +106,7 @@ export class NabIndexer extends NotabugClient {
       putToPeers: true
     })
 
-    adapter.connectToPeers()
+    // adapter.connectToPeers()
 
     return adapter
   }
