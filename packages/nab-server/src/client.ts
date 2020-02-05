@@ -74,6 +74,9 @@ export class NotabugClient extends ChainGunSeaClient {
   }
 
   protected setupAdapter(worker: NotabugWorker): GunGraphAdapter {
-    return worker.adapter
+    return {
+      ...worker.adapter,
+      get: worker.internalAdapter.get
+    }
   }
 }

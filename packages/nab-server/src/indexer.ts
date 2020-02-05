@@ -18,6 +18,7 @@ const { ListingSort, ListingNode, ListingSpec } = Listing
 
 export class NabIndexer extends NotabugClient {
   public readonly indexerQueue: GunProcessQueue<string>
+  protected memory: GunGraphAdapter
   protected lastSeenKey: string
 
   constructor(worker: NotabugWorker) {
@@ -57,6 +58,7 @@ export class NabIndexer extends NotabugClient {
         const from = (oracles && oracles.indexer) || ''
 
         this.worker.changelogFeed.feed((key: string, diff: GunGraphData) => {
+          this.memory.putSync(diff)
           this.indexerQueue.enqueueMany(idsToIndex(diff))
           this.indexerQueue.process()
           this.sawKey(key)
@@ -76,8 +78,10 @@ export class NabIndexer extends NotabugClient {
   }
 
   protected setupAdapter(worker: NotabugWorker): GunGraphAdapter {
-    const peers = worker.getPeers()
-    const memAdapter = createMemoryAdapter({
+    const externalPeers = worker.getPeers()
+    const [external = worker.adapter] = Object.values(externalPeers)
+
+    this.memory = createMemoryAdapter({
       diffFn: diffGunCRDT,
       mergeFn: (existing: GunGraphData, diff: GunGraphData) => {
         const unpacked = unpackGraph(diff)
@@ -87,7 +91,15 @@ export class NabIndexer extends NotabugClient {
         return mergeGraph(existing, unpacked, 'mutable')
       }
     })
-    const adapter = FederationAdapter.create(memAdapter, peers, memAdapter, {
+
+    const peers = {
+      internal: {
+        ...external,
+        get: worker.internalAdapter.get
+      }
+    }
+
+    const adapter = FederationAdapter.create(this.memory, peers, this.memory, {
       backSync: 0,
       batchInterval: 0,
       maxStaleness: 7 * 24 * 60 * 60 * 100,
