@@ -1,5 +1,14 @@
 // tslint:disable: readonly-keyword no-object-mutation no-let
-import { GunGraphData, GunProcessQueue } from '@chaingun/sea-client'
+import { FederationAdapter } from '@chaingun/federation-adapter'
+import { createMemoryAdapter } from '@chaingun/memory-adapter'
+import {
+  diffGunCRDT,
+  GunGraphAdapter,
+  GunGraphData,
+  GunProcessQueue,
+  mergeGraph,
+  unpackGraph
+} from '@chaingun/sea-client'
 import { Config, Listing, Query, Schema, ThingDataNode } from '@notabug/peer'
 import { NotabugClient } from './client'
 import { NotabugWorker } from './worker'
@@ -64,6 +73,30 @@ export class NabIndexer extends NotabugClient {
 
   public sawKey(key: string): void {
     this.lastSeenKey = key
+  }
+
+  protected setupAdapter(worker: NotabugWorker): GunGraphAdapter {
+    const peers = worker.getPeers()
+    const memAdapter = createMemoryAdapter({
+      diffFn: diffGunCRDT,
+      mergeFn: (existing: GunGraphData, diff: GunGraphData) => {
+        const unpacked = unpackGraph(diff)
+        // tslint:disable-next-line: no-delete
+        delete unpacked.changelog
+
+        return mergeGraph(existing, unpacked, 'mutable')
+      }
+    })
+    const adapter = FederationAdapter.create(memAdapter, peers, memAdapter, {
+      backSync: 0,
+      batchInterval: 0,
+      maxStaleness: 7 * 24 * 60 * 60 * 100,
+      putToPeers: true
+    })
+
+    adapter.connectToPeers()
+
+    return adapter
   }
 }
 

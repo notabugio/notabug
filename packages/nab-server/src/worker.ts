@@ -48,11 +48,17 @@ export class NotabugWorker extends GunSocketClusterWorker {
   constructor(...args: any) {
     super(...args)
 
-    if (this.id === 1) {
+    if (
+      this.id === 1 &&
+      (process.env.NAB_TABULATOR_ALIAS || process.env.GUN_ALIAS)
+    ) {
       new NabTabulator(this).start()
     }
 
-    if (this.id === 2) {
+    if (
+      this.id === 2 &&
+      (process.env.NAB_INDEXER_ALIAS || process.env.GUN_ALIAS)
+    ) {
       new NabIndexer(this).start()
     }
   }

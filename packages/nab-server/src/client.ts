@@ -1,6 +1,7 @@
 import {
   ChainGunSeaClient,
   GunGraph,
+  GunGraphAdapter,
   GunGraphConnectorFromAdapter,
   GunNode,
   pubFromSoul,
@@ -11,19 +12,21 @@ import { NotabugWorker } from './worker'
 
 export class NotabugClient extends ChainGunSeaClient {
   public readonly worker: NotabugWorker
+  protected readonly adapter: GunGraphAdapter
 
   constructor(worker: NotabugWorker) {
     const graph = new GunGraph()
-    const dbConnector = new GunGraphConnectorFromAdapter(worker.adapter)
+
+    super({ graph })
+
+    this.adapter = this.setupAdapter(worker)
+    const dbConnector = new GunGraphConnectorFromAdapter(this.adapter)
+    this.worker = worker
+    this.readNode = this.readNode.bind(this)
 
     dbConnector.sendRequestsFromGraph(graph as any)
     dbConnector.sendPutsFromGraph(graph as any)
     graph.connect(dbConnector)
-
-    super({ graph })
-
-    this.worker = worker
-    this.readNode = this.readNode.bind(this)
   }
 
   public authenticate(
@@ -40,10 +43,7 @@ export class NotabugClient extends ChainGunSeaClient {
     return Promise.reject(new Error('Missing alias or password'))
   }
 
-  public readNode(
-    soul: string,
-    from: 'internal' | 'external' = 'internal'
-  ): Promise<GunNode | null> {
+  public readNode(soul: string): Promise<GunNode | null> {
     return new Promise<GunNode | null>((ok, fail) => {
       const timeout = setTimeout(() => fail(new Error('Read timeout')), 60000)
 
@@ -53,15 +53,13 @@ export class NotabugClient extends ChainGunSeaClient {
       }
 
       // tslint:disable-next-line: no-unused-expression
-      ;(from === 'internal' ? this.worker.internalAdapter : this.worker.adapter)
-        .get(soul)
-        .then(node => {
-          if (pubFromSoul(soul)) {
-            unpackNode(node, 'mutable')
-          }
+      this.adapter.get(soul).then(node => {
+        if (pubFromSoul(soul)) {
+          unpackNode(node, 'mutable')
+        }
 
-          done(node)
-        })
+        done(node)
+      })
     })
   }
 
@@ -73,5 +71,9 @@ export class NotabugClient extends ChainGunSeaClient {
         unsub: true
       }
     )
+  }
+
+  protected setupAdapter(worker: NotabugWorker): GunGraphAdapter {
+    return worker.adapter
   }
 }
