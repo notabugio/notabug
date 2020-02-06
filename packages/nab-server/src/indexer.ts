@@ -5,6 +5,7 @@ import {
   diffGunCRDT,
   GunGraphAdapter,
   GunGraphData,
+  GunNode,
   GunProcessQueue,
   mergeGraph,
   unpackGraph
@@ -75,6 +76,10 @@ export class NabIndexer extends NotabugClient {
 
   public sawKey(key: string): void {
     this.lastSeenKey = key
+  }
+
+  public readNode(soul: string): Promise<GunNode | null> {
+    return this.adapter.get(soul)
   }
 
   protected setupAdapter(worker: NotabugWorker): GunGraphAdapter {
