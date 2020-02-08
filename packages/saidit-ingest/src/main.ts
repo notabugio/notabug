@@ -1,3 +1,5 @@
+// tslint:disable: no-var-requires
+require('dotenv').config()
 import { ChainGunLinguaStore } from '@lingua-webca/chaingun'
 import { HttpStore, PathPrefixedStore, store, webca } from '@lingua-webca/core'
 import { NotabugLinguaStore } from '@notabug/client'

@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "saidit-ingest",
+      "instances": 1,
+      "script": "./build/main/main.js"
+    }
+  ]
+}
