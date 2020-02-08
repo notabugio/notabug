@@ -1,3 +1,6 @@
 [submodule "chaingun"]
 	path = chaingun
 	url = git+ssh://git@github.com/chain-gun/chaingun.git
+[submodule "lingua-webca"]
+	path = lingua-webca
+	url = git+ssh://git@github.com/lingua-webca/lingua-webca

@@ -34,7 +34,8 @@
   "private": true,
   "workspaces": [
     "packages/*",
-    "chaingun/packages/*"
+    "chaingun/packages/*",
+    "lingua-webca/packages/*"
   ],
   "devDependencies": {
     "@types/socketcluster": "^14.0.2",
