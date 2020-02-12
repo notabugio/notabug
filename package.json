@@ -17,17 +17,19 @@
     "buildall": "lerna run build",
     "buildchanges": "lerna run build --since",
     "server": "yarn workspace @notabug/nab-server start",
-    "start": "yarn workspace @notabug/nab-server pm2:start",
+    "start": "yarn workspace @notabug/nab-server pm2:start && yarn workspace @notabug/indexer pm2:start",
+    "start-indexer": "yarn workspace @notabug/indexer pm2:start",
     "saidit-ingest": "yarn workspace @notabug/saidit-ingest pm2:start",
     "saidit-logs": "yarn workspace @notabug/saidit-ingest pm2:logs",
     "stop": "yarn workspace @notabug/nab-server pm2:stop",
-    "logs": "yarn workspace @notabug/nab-server pm2:logs",
+    "logs": "pm2 logs",
     "status": "yarn workspace @notabug/nab-server pm2:ls",
     "reload": "yarn workspace @notabug/nab-server pm2:reload",
-    "pm2:update": "yarn workspace @notabug/nab-server pm2:update",
+    "reload-indexer": "yarn workspace @notabug/indexer pm2:reload",
+    "pm2:update": "pm2 update",
     "gitupgrade": "git pull origin master && yarn hotrebuild",
     "gitstashupgrade": "git stash && git pull origin master && git stash pop && yarn hotrebuild",
-    "monit": "yarn workspace @notabug/nab-server pm2:monit",
+    "monit": "pm2 monit",
     "hotrebuild": "yarn setup && yarn reload",
     "devrebuild": "yarn buildchanges && yarn reload",
     "uidev": "yarn workspace notabug start",
@@ -47,5 +49,8 @@
   "prettier": {
     "singleQuote": true,
     "semi": false
+  },
+  "dependencies": {
+    "pm2": "^4.2.3"
   }
 }
