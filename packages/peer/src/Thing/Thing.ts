@@ -179,6 +179,74 @@ const vote = R.curry((peer, id, kind, nonce) => {
   return votes.put({ [nonce]: '1' });
 });
 
+function replyToId(thingNode: any) {
+  const soul = thingNode?.replyTo?.['#'];
+
+  if (!soul) {
+    return;
+  }
+
+  const match = Schema.Thing.route.match(soul);
+
+  if (!match) {
+    return;
+  }
+
+  return match.thingId;
+}
+
+function opId(thingNode: any) {
+  const soul = thingNode?.op?.['#'];
+
+  if (!soul) {
+    return;
+  }
+
+  const match = Schema.Thing.route.match(soul);
+
+  if (!match) {
+    return;
+  }
+
+  return match.thingId;
+}
+
+function authorId(thingNode: any) {
+  const soul = thingNode?.author?.['#'];
+
+  if (!soul) {
+    return;
+  }
+
+  const match = Schema.SEAAuthor.route.match(soul);
+
+  if (!match) {
+    return;
+  }
+
+  return match.authorId;
+}
+
+function topic(thingNode: any) {
+  const soul = thingNode?.topic?.['#'];
+
+  if (!soul) {
+    return;
+  }
+
+  const match = Schema.Topic.route.match(soul);
+
+  if (!match) {
+    return;
+  }
+
+  return match.topicName;
+}
+
+function kind(thingNode: any) {
+  return thingNode?.kind;
+}
+
 export const Thing = {
   soulToId,
   soulsToIds,
@@ -188,5 +256,10 @@ export const Thing = {
   chat,
   writePage,
   vote,
-  index
+  index,
+  replyToId,
+  opId,
+  authorId,
+  kind,
+  topic
 };

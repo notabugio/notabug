@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "nab-indexer",
+      "instances": 1,
+      "script": "./build/main/main.js"
+    }
+  ]
+}

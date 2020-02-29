@@ -10,9 +10,7 @@ import express, { Request } from 'express'
 import fallback from 'express-history-api-fallback'
 import Gun from 'gun'
 import path from 'path'
-import { NabIndexer } from './indexer'
 import { RateLimiterIPCWorker } from './rate-limiter-ipc'
-import { NabTabulator } from './tabulator'
 
 const DISABLE_VALIDATION = false
 
@@ -45,24 +43,6 @@ staticMedia.use(express.static(root, { index: false }))
 const dataRe = /things\/.*\/data/
 
 export class NotabugWorker extends GunSocketClusterWorker {
-  constructor(...args: any) {
-    super(...args)
-
-    if (
-      this.id === 1 &&
-      (process.env.NAB_TABULATOR_ALIAS || process.env.GUN_ALIAS)
-    ) {
-      new NabTabulator(this).start()
-    }
-
-    if (
-      this.id === 2 &&
-      (process.env.NAB_INDEXER_ALIAS || process.env.GUN_ALIAS)
-    ) {
-      new NabIndexer(this).start()
-    }
-  }
-
   public setupExpress(): any {
     const app = super.setupExpress()
     app.use(compression())
