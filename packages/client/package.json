@@ -92,5 +92,6 @@
     "exclude": [
       "**/*.spec.js"
     ]
-  }
+  },
+  "gitHead": "994ded86414c80ecc846bf4f958ac0176e4be1e4"
 }
