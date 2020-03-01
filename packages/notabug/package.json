@@ -1,6 +1,6 @@
 {
   "name": "notabug",
-  "version": "0.84.0",
+  "version": "0.85.0",
   "description": "Classic Open-Source Reddit UI for notabug",
   "main": "index.js",
   "keywords": [],

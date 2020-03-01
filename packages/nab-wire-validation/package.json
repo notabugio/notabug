@@ -1,6 +1,6 @@
 {
   "name": "@notabug/nab-wire-validation",
-  "version": "0.84.0",
+  "version": "0.85.0",
   "description": "Wire protocol validation for notabug.io",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
