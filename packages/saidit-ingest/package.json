@@ -54,7 +54,7 @@
   "dependencies": {
     "@lingua-webca/chaingun": "^0.1.0",
     "@lingua-webca/core": "^0.1.0",
-    "@notabug/client": "^0.82.3",
+    "@notabug/client": "^0.85.0",
     "@types/html-entities": "^1.2.16",
     "@types/node": "^12.12.21",
     "@types/ramda": "^0.26.38",

@@ -59,7 +59,7 @@
     "@chaingun/http-adapter": "^0.23.7",
     "@chaingun/node-adapters": "^0.23.7",
     "@chaingun/sea-client": "^0.23.7",
-    "@notabug/peer": "^0.82.4",
+    "@notabug/peer": "^0.85.0",
     "dotenv": "^8.1.0",
     "js-yaml": "^3.13.1",
     "pm2": "^4.2.3",

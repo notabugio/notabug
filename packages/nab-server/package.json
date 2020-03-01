@@ -61,8 +61,8 @@
   "dependencies": {
     "@chaingun/sea-client": "^0.23.7",
     "@chaingun/socketcluster-worker": "^0.23.7",
-    "@notabug/nab-wire-validation": "^0.82.4",
-    "@notabug/peer": "^0.82.4",
+    "@notabug/nab-wire-validation": "^0.85.0",
+    "@notabug/peer": "^0.85.0",
     "compression": "^1.7.4",
     "dotenv": "^8.1.0",
     "express-history-api-fallback": "^2.2.1",
