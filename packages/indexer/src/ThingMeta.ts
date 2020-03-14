@@ -1,5 +1,6 @@
 import { GunGraphAdapter, GunNode, unpackNode } from '@chaingun/sea-client'
 import { Listing, Schema, Thing, ThingDataNode } from '@notabug/peer'
+import { LRUMap } from 'lru_map'
 import { mergeDeepLeft } from 'ramda'
 import { pathsForThing } from './paths-for-thing'
 import { calculateSortScores } from './sorts'
@@ -13,21 +14,15 @@ import {
 
 const { ListingNode } = Listing
 
-// TODO: https://github.com/rsms/js-lru
-type ThingMetaCache = Record<
-  ThingID,
-  ThingMetaRecord | Promise<ThingMetaRecord> | undefined
->
-
 export class ThingMeta {
   protected readonly adapter: GunGraphAdapter
-  protected readonly cache: ThingMetaCache
+  protected readonly cache: LRUMap<string, Promise<ThingMetaRecord>>
   protected readonly pub: string
 
   constructor(adapter: GunGraphAdapter, pub: string) {
     this.pub = pub
     this.adapter = adapter
-    this.cache = {}
+    this.cache = new LRUMap(50000)
   }
 
   public async getPaths(thingId: string): Promise<readonly string[]> {
@@ -108,13 +103,13 @@ export class ThingMeta {
   }
 
   protected fetch(thingId: ThingID): Promise<ThingMetaRecord> {
-    const existing = this.cache[thingId]
+    const existing = this.cache.get(thingId)
 
     if (existing) {
       return Promise.resolve(existing)
     }
 
-    return (this.cache[thingId] = new Promise(async (resolve, reject) => {
+    const promise = new Promise<ThingMetaRecord>(async (resolve, reject) => {
       try {
         const countsSoul = Schema.ThingVoteCounts.route.reverse({
           tabulator: this.pub,
@@ -146,17 +141,20 @@ export class ThingMeta {
         ])
 
         resolve(
-          (this.cache[thingId] = nodesToMetaRecord(
+          nodesToMetaRecord(
             thingNode,
             thingData,
             countsNode,
             replyToNode || undefined
-          ))
+          )
         )
       } catch (e) {
         reject(e)
       }
-    }))
+    })
+
+    this.cache.set(thingId, promise)
+    return promise
   }
 }
 
@@ -170,13 +168,14 @@ function nodesToMetaRecord(
 
   return {
     isCommand: ThingDataNode.isCommand(thingData),
-    authorId: Thing.authorId(thingNode),
-    opId: Thing.opId(thingNode),
-    replyToId: ThingDataNode.replyToId(thingData),
+    authorId: Thing.authorId(thingNode) || ThingDataNode.authorId(thingData),
+    opId: Thing.opId(thingNode) || ThingDataNode.opId(thingData),
+    replyToId:
+      ThingDataNode.replyToId(thingData) || ThingDataNode.replyToId(thingData),
     replyToAuthorId: Thing.authorId(replyToNode),
     replyToKind: Thing.kind(replyToNode),
-    kind: Thing.kind(thingNode),
-    topic: Thing.topic(thingNode),
+    kind: Thing.kind(thingNode) || ThingDataNode.kind(thingData),
+    topic: Thing.topic(thingNode) || ThingDataNode.topic(thingData),
     domain: ThingDataNode.domain(thingData),
     created,
     updated: countsNode?._?.['>']?.comments || created,

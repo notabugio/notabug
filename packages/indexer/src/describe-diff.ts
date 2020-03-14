@@ -20,7 +20,7 @@ export function describeDiff(diff: GunGraphData): TabulatorChanges | null {
       const thingChanges: TabulatorThingChanges =
         changes[thingId] || (changes[thingId] = {})
       thingChanges.up = (thingChanges.up || 0) + upsCount
-      thingChanges.score = (thingChanges.up || 0) + upsCount
+      thingChanges.score = (thingChanges.score || 0) + upsCount
 
       continue
     }

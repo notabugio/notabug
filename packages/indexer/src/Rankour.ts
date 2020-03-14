@@ -1,5 +1,6 @@
 // tslint:disable: readonly-array
 import { GunGraphAdapter, GunNode, unpackNode } from '@chaingun/sea-client'
+import { LRUMap } from 'lru_map'
 import {
   RankourListingItem,
   RankourListingSoul,
@@ -11,15 +12,16 @@ interface RankourListing {
   readonly byId: Record<RankourThingId, RankourListingItem>
   readonly byKey: Record<string, RankourListingItem>
   readonly sorted: RankourListingItem[]
+  readonly promise: Promise<RankourListing>
 }
 
 export class Rankour {
   protected readonly listingSize: number
   protected readonly adapter: GunGraphAdapter
-  protected readonly cache: Record<RankourListingSoul, RankourListing>
+  protected readonly cache: LRUMap<RankourListingSoul, RankourListing>
 
   constructor(adapter: GunGraphAdapter, listingSize = 1000) {
-    this.cache = {}
+    this.cache = new LRUMap(50000)
     this.adapter = adapter
     this.listingSize = listingSize
     this.updateListing = this.updateListing.bind(this)
@@ -27,7 +29,7 @@ export class Rankour {
   }
 
   public has(listingSoul: RankourListingSoul): boolean {
-    return listingSoul in this.cache
+    return this.cache.has(listingSoul)
   }
 
   public async update(
@@ -49,7 +51,7 @@ export class Rankour {
     const node = unpackNode(nodeData)
 
     for (const key in node) {
-      if (!key || key === '_') {
+      if (key === '_') {
         continue
       }
 
@@ -65,7 +67,7 @@ export class Rankour {
         continue
       }
 
-      this.upsert(soul, id, parseFloat(sortValStr), key)
+      this.upsert(soul, id, parseFloat(sortValStr), `${key || 0}`)
     }
   }
 
@@ -75,7 +77,7 @@ export class Rankour {
     sortValue: RankourSortValue,
     key?: string
   ): RankourListingItem | null {
-    const listing = this.cache[listingSoul]
+    const listing = this.cache.get(listingSoul)
 
     if (!listing) {
       return null
@@ -84,7 +86,7 @@ export class Rankour {
     const { byId, byKey, sorted } = listing
     const existing = byId[thingId]
 
-    if (existing) {
+    if (existing && !key) {
       const existingValue = existing[3]
 
       if (existingValue === sortValue) {
@@ -126,6 +128,15 @@ export class Rankour {
           thingId,
           sortValue
         ]
+
+        if (byKey[thingKey]) {
+          console.error('duplicate key', {
+            newItem,
+            existing: byKey[thingKey]
+          })
+          return null
+        }
+
         byId[thingId] = newItem
         sorted.splice(nextPosition, 0, newItem)
         byKey[thingKey] = newItem
@@ -138,7 +149,12 @@ export class Rankour {
         }
 
         const replacedId = toReplace[2]
-        delete byId[replacedId]
+
+        if (toReplace === byId[replacedId]) {
+          // Only delete if matching to better handle dupes
+          delete byId[replacedId]
+        }
+
         toReplace[2] = thingId
         toReplace[3] = sortValue
         byId[thingId] = toReplace
@@ -151,18 +167,26 @@ export class Rankour {
     }
   }
 
-  protected async load(listingSoul: string): Promise<void> {
-    if (this.cache[listingSoul]) {
-      return
+  protected load(listingSoul: string): Promise<RankourListing> {
+    const existing = this.cache.get(listingSoul)
+    if (existing) {
+      // TODO: track load promise to prevent async issues
+      return existing.promise
     }
 
-    this.cache[listingSoul] = {
+    const promise = new Promise<RankourListing>(async ok => {
+      this.updateListing(await this.adapter.get(listingSoul))
+      ok(this.cache.get(listingSoul))
+    })
+
+    this.cache.set(listingSoul, {
       byId: {},
       byKey: {},
-      sorted: []
-    }
+      sorted: [],
+      promise
+    })
 
-    this.updateListing(await this.adapter.get(listingSoul))
+    return promise
   }
 }
 
