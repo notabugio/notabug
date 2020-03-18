@@ -1,6 +1,6 @@
 {
   "name": "@notabug/indexer",
-  "version": "0.87.0",
+  "version": "0.88.0",
   "description": "Indexer for notabug.io",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -59,7 +59,7 @@
     "@chaingun/http-adapter": "^0.23.7",
     "@chaingun/node-adapters": "^0.23.7",
     "@chaingun/sea-client": "^0.23.7",
-    "@notabug/peer": "^0.87.0",
+    "@notabug/peer": "^0.88.0",
     "dotenv": "^8.1.0",
     "js-yaml": "^3.13.1",
     "lru_map": "^0.3.3",
