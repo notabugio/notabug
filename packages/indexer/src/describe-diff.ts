@@ -54,9 +54,9 @@ export function describeDiff(diff: GunGraphData): TabulatorChanges | null {
         } as unknown) as any)
         const parentThingChanges: TabulatorThingChanges =
           changes[replyToId] || (changes[replyToId] = {})
-        parentThingChanges.commandMap = mergeDeepLeft(
+        parentThingChanges.commands = mergeDeepLeft(
           commandMap,
-          parentThingChanges.commandMap || {}
+          parentThingChanges.commands || {}
         )
       }
 

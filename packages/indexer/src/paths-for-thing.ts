@@ -14,7 +14,7 @@ export function pathsForThing(meta: ThingMetaRecord): string[] {
     kind,
     topic,
     domain,
-    counts: { commandMap: commands }
+    counts: { commands }
   } = meta
 
   if (kind === 'submission') {

@@ -51,10 +51,10 @@ export class ThingMeta {
 
     const counts: Partial<ThingScores> = {}
 
-    if (changes.commandMap) {
-      counts.commandMap = record.counts.commandMap = mergeDeepLeft(
-        changes.commandMap,
-        record.scores.commandMap || {}
+    if (changes.commands) {
+      counts.commands = record.counts.commands = mergeDeepLeft(
+        changes.commands,
+        record.scores.commands || {}
       )
     }
 
@@ -185,7 +185,7 @@ function nodesToMetaRecord(
       score: parseInt(countsNode?.score, 10) || 0,
       comment: parseInt(countsNode?.comment, 10) || 0,
       replies: parseInt(countsNode?.replies, 10) || 0,
-      commandMap: countsNode?.commandMap || {}
+      commands: countsNode?.commands || {}
     },
     scores: {}
   }

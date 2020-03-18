@@ -32,7 +32,7 @@ export interface ThingScores {
   score: number
   comment: number
   replies: number
-  commandMap: CommandMap
+  commands: CommandMap
 }
 
 export type ThingID = string
@@ -45,7 +45,7 @@ export interface TabulatorThingChanges {
   score?: number
   comment?: number
   replies?: number
-  commandMap?: CommandMap
+  commands?: CommandMap
   created?: number
   updated?: number
 }
