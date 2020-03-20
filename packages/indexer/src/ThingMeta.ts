@@ -175,8 +175,12 @@ function nodesToMetaRecord(
     replyToAuthorId: Thing.authorId(replyToNode),
     replyToKind: Thing.kind(replyToNode),
     kind: Thing.kind(thingNode) || ThingDataNode.kind(thingData),
-    topic: Thing.topic(thingNode) || ThingDataNode.topic(thingData),
-    domain: ThingDataNode.domain(thingData),
+    topic: (
+      Thing.topic(thingNode) ||
+      ThingDataNode.topic(thingData) ||
+      'whatever'
+    ).toLowerCase(),
+    domain: (ThingDataNode.domain(thingData) || 'unknown').toLowerCase(),
     created,
     updated: countsNode?._?.['>']?.comments || created,
     counts: {
