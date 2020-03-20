@@ -1,6 +1,6 @@
 {
   "name": "@notabug/indexer",
-  "version": "0.88.0",
+  "version": "0.88.1",
   "description": "Indexer for notabug.io",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
