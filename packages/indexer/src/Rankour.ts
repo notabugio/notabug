@@ -1,6 +1,7 @@
 // tslint:disable: readonly-array
 import { GunGraphAdapter, GunNode, unpackNode } from '@chaingun/sea-client'
 import { LRUMap } from 'lru_map'
+import { LISTING_CACHE_SIZE } from './config'
 import {
   RankourListingItem,
   RankourListingSoul,
@@ -21,7 +22,7 @@ export class Rankour {
   protected readonly cache: LRUMap<RankourListingSoul, RankourListing>
 
   constructor(adapter: GunGraphAdapter, listingSize = 1000) {
-    this.cache = new LRUMap(50000)
+    this.cache = new LRUMap(LISTING_CACHE_SIZE)
     this.adapter = adapter
     this.listingSize = listingSize
     this.updateListing = this.updateListing.bind(this)

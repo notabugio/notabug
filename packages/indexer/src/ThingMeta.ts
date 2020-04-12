@@ -2,6 +2,7 @@ import { GunGraphAdapter, GunNode, unpackNode } from '@chaingun/sea-client'
 import { Listing, Schema, Thing, ThingDataNode } from '@notabug/peer'
 import { LRUMap } from 'lru_map'
 import { mergeDeepLeft } from 'ramda'
+import { THING_META_CACHE_SIZE } from './config'
 import { pathsForThing } from './paths-for-thing'
 import { calculateSortScores } from './sorts'
 import {
@@ -22,7 +23,7 @@ export class ThingMeta {
   constructor(adapter: GunGraphAdapter, pub: string) {
     this.pub = pub
     this.adapter = adapter
-    this.cache = new LRUMap(50000)
+    this.cache = new LRUMap(THING_META_CACHE_SIZE)
   }
 
   public async getPaths(thingId: string): Promise<readonly string[]> {
@@ -182,7 +183,7 @@ function nodesToMetaRecord(
     ).toLowerCase(),
     domain: (ThingDataNode.domain(thingData) || 'unknown').toLowerCase(),
     created,
-    updated: countsNode?._?.['>']?.comments || created,
+    updated: countsNode?._?.['>']?.comment || created,
     counts: {
       up: parseInt(countsNode?.up, 10) || 0,
       down: parseInt(countsNode?.down, 10) || 0,

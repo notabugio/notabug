@@ -89,7 +89,7 @@ export function describeDiff(diff: GunGraphData): TabulatorChanges | null {
         const opThingChanges: TabulatorThingChanges =
           changes[opId] || (changes[opId] = {})
         opThingChanges.comment = (opThingChanges.comment || 0) + 1
-        if (timestamp > opThingChanges.updated) {
+        if (!opThingChanges.updated || timestamp > opThingChanges.updated) {
           opThingChanges.updated = timestamp
         }
       }
